@@ -1,87 +1,290 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
   <defs>
-    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#2a1205" />
-      <stop offset="100%" stop-color="#0a0a0a" />
+    <!-- Deep dark background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0705" />
+      <stop offset="100%" stop-color="#080808" />
+    </linearGradient>
+
+    <!-- Left forge fire glow -->
+    <radialGradient id="leftGlow" cx="30%" cy="55%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,100,20,0.25)" />
+      <stop offset="60%" stop-color="rgba(255,60,0,0.08)" />
+      <stop offset="100%" stop-color="transparent" />
     </radialGradient>
-    <linearGradient id="fireGrad" x1="50%" y1="100%" x2="50%" y2="0%">
-      <stop offset="0%" stop-color="#ff2a00" />
-      <stop offset="40%" stop-color="#ff7300" />
-      <stop offset="80%" stop-color="#ffb300" />
-      <stop offset="100%" stop-color="#ffe600" />
+
+    <!-- Right text glow -->
+    <radialGradient id="rightGlow" cx="70%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,107,43,0.06)" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Fire layers -->
+    <linearGradient id="fireCore" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#cc2200" />
+      <stop offset="30%" stop-color="#ff5500" />
+      <stop offset="65%" stop-color="#ff9900" />
+      <stop offset="100%" stop-color="#ffee66" stop-opacity="0.9" />
     </linearGradient>
-    <linearGradient id="anvilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ebedf0" />
-      <stop offset="30%" stop-color="#a0aab5" />
-      <stop offset="70%" stop-color="#55606b" />
-      <stop offset="100%" stop-color="#222" />
+
+    <linearGradient id="fireSide" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#aa2000" stop-opacity="0.85" />
+      <stop offset="55%" stop-color="#ff6600" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#ffaa00" stop-opacity="0" />
     </linearGradient>
-    <linearGradient id="hammerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+
+    <linearGradient id="fireInner" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#ff6600" />
+      <stop offset="60%" stop-color="#ffdd00" />
+      <stop offset="100%" stop-color="#fffacc" stop-opacity="0.3" />
+    </linearGradient>
+
+    <!-- Steel anvil gradient -->
+    <linearGradient id="anvilTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d8dde3" />
+      <stop offset="40%" stop-color="#9aa3ae" />
+      <stop offset="100%" stop-color="#3a4450" />
+    </linearGradient>
+
+    <linearGradient id="anvilBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6b7885" />
+      <stop offset="100%" stop-color="#1e2830" />
+    </linearGradient>
+
+    <!-- Glowing hammer gradient -->
+    <linearGradient id="hammerHead" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="100%" stop-color="#a0aab5" />
+      <stop offset="50%" stop-color="#c8d0d9" />
+      <stop offset="100%" stop-color="#7a8896" />
     </linearGradient>
-    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur1" />
-      <feGaussianBlur in="SourceGraphic" stdDeviation="24" result="blur2" />
-      <feMerge>
-        <feMergeNode in="blur2" />
-        <feMergeNode in="blur1" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
+
+    <!-- Outer soft glow filter for fire -->
+    <filter id="fireGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="1.5" fill="#333" />
+
+    <!-- Tight glow for sparks -->
+    <filter id="sparkGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b" />
+      <feComposite in="SourceGraphic" in2="b" operator="over" />
+    </filter>
+
+    <!-- Hammer glow -->
+    <filter id="hammerGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+
+    <!-- Dot grid pattern -->
+    <pattern id="dot" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.2" fill="#2a2a2a" />
     </pattern>
-    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#bbbbbb"/>
+
+    <!-- Vertical fade mask for dots -->
+    <linearGradient id="dotFade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="black" />
+      <stop offset="30%" stop-color="white" />
+      <stop offset="70%" stop-color="white" />
+      <stop offset="100%" stop-color="black" />
+    </linearGradient>
+
+    <mask id="dotMask">
+      <rect width="1200" height="500" fill="url(#dotFade)" />
+    </mask>
+
+    <!-- Horizontal separator line gradient -->
+    <linearGradient id="sepLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="transparent" />
+      <stop offset="30%" stop-color="#ff6b2b" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#ff6b2b" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="transparent" />
     </linearGradient>
   </defs>
 
   <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bgGlow)"/>
-  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="500" fill="url(#bgGrad)" />
 
-  <!-- Logo Left Side -->
-  <g transform="translate(300, 315) scale(0.6)">
-    <g transform="translate(0, 0)">
-      <path d="M -80 -10 C -120 -80 -60 -180 -10 -110 C 20 -190 80 -190 50 -100 C 130 -160 160 -80 80 -10 Z" fill="url(#fireGrad)" filter="url(#neonGlow)" />
-      <path d="M -160 0 L -80 -20 L 140 -20 C 160 -20 180 -10 160 0 L -160 0 Z" fill="url(#anvilGrad)" />
-      <path d="M -60 0 L 120 0 L 100 80 L -40 80 Z" fill="url(#anvilGrad)" />
-      <path d="M -100 120 L -80 80 L 140 80 L 160 120 Z" fill="url(#anvilGrad)" />
-      <path d="M -120 150 L -100 120 L 160 120 L 180 150 Z" fill="url(#anvilGrad)" />
-      <circle cx="20" cy="-25" r="18" fill="#ffffff" filter="url(#neonGlow)" />
-      <g transform="translate(70, -110) rotate(35)">
-        <path d="M -15 0 L 15 0 L 10 120 L -10 120 Z" fill="#333" />
-        <rect x="-40" y="-30" width="80" height="40" rx="8" fill="url(#hammerGrad)" />
-      </g>
-      <circle cx="-60" cy="-60" r="6" fill="#ffe600" filter="url(#neonGlow)" />
-      <circle cx="-20" cy="-120" r="4" fill="#ff7300" filter="url(#neonGlow)" />
-      <circle cx="90" cy="-80" r="8" fill="#ffffff" filter="url(#neonGlow)" />
+  <!-- Dot grid overlay -->
+  <rect width="1200" height="500" fill="url(#dot)" mask="url(#dotMask)" opacity="0.5" />
+
+  <!-- Atmospheric glow spots -->
+  <rect width="1200" height="500" fill="url(#leftGlow)" />
+  <rect width="1200" height="500" fill="url(#rightGlow)" />
+
+  <!-- ════════ FORGE SCENE (left, centred vertically) ════════ -->
+  <g transform="translate(290, 250)">
+
+    <!-- Wide background glow -->
+    <ellipse cx="0" cy="-195" rx="70" ry="90" fill="#ff5500" opacity="0.2" filter="url(#fireGlow)" />
+
+    <!-- Classic 3-Tongue Flame -->
+    <path d="M 0 -240 
+             C 35 -190, 45 -140, 45 -100 
+             C 65 -130, 80 -120, 80 -80 
+             C 80 -30, 45 0, 0 0 
+             C -45 0, -80 -30, -80 -80 
+             C -80 -120, -65 -130, -45 -100 
+             C -45 -140, -35 -190, 0 -240 Z" 
+          fill="url(#fireSide)" filter="url(#fireGlow)" />
+
+    <!-- Inner 3-Tongue Flame -->
+    <path d="M 0 -190 
+             C 25 -150, 30 -115, 30 -80 
+             C 45 -105, 55 -95, 55 -65 
+             C 55 -25, 30 -10, 0 -10 
+             C -30 -10, -55 -25, -55 -65 
+             C -55 -95, -45 -105, -30 -80 
+             C -30 -115, -25 -150, 0 -190 Z" 
+          fill="url(#fireCore)" />
+
+    <!-- Bright Core -->
+    <path d="M 0 -140 
+             C 15 -110, 15 -85, 15 -60
+             C 25 -75, 30 -70, 30 -50
+             C 30 -25, 15 -15, 0 -15
+             C -15 -15, -30 -25, -30 -50
+             C -30 -70, -25 -75, -15 -60
+             C -15 -85, -15 -110, 0 -140 Z" 
+          fill="url(#fireInner)" filter="url(#sparkGlow)" />
+
+    <!-- ── ANVIL ── -->
+
+    <!-- Horn (left spike) -->
+    <path d="M -170 -35 C -185 -42 -188 -18 -170 -18 L -62 -18 Z"
+          fill="url(#anvilTop)" />
+
+    <!-- Top face (flat strike surface) -->
+    <path d="M -62 -35 L 155 -35 C 168 -35 170 -20 155 -18 L -62 -18 Z"
+          fill="url(#anvilTop)" />
+
+    <!-- Waist neck -->
+    <rect x="-55" y="-18" width="110" height="52" fill="url(#anvilBody)" />
+
+    <!-- Base platform -->
+    <path d="M -110 38 L -55 34 L 55 34 L 110 38 L 100 75 L -100 75 Z"
+          fill="url(#anvilBody)" />
+
+    <!-- Base foot -->
+    <path d="M -120 75 L -100 75 L 100 75 L 120 75 L 115 100 L -115 100 Z"
+          fill="#1a2028" />
+
+    <!-- Face highlight line -->
+    <line x1="-62" y1="-35" x2="155" y2="-35" stroke="#e8ecf0" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+    
+    <!-- Waist side shadow -->
+    <rect x="55" y="-18" width="10" height="52" fill="rgba(0,0,0,0.3)" />
+
+    <!-- Glowing piece being forged on top -->
+    <rect x="-24" y="-56" width="48" height="20" rx="4" fill="#ffcc44" filter="url(#sparkGlow)" opacity="0.9" />
+    <rect x="-20" y="-52" width="40" height="12" rx="3" fill="#fff5cc" />
+
+    <!-- ── HAMMER ── -->
+    <g transform="translate(120, -130) rotate(38) ">
+      <!-- Handle shadow/blur -->
+      <rect x="-8" y="0" width="16" height="115" rx="8" fill="#111" filter="url(#hammerGlow)" />
+      <!-- Handle -->
+      <rect x="-7" y="0" width="14" height="115" rx="7" fill="#2c2018" />
+      <rect x="-4" y="0" width="5" height="115" rx="3" fill="rgba(255,255,255,0.06)" />
+      <!-- Head -->
+      <rect x="-42" y="-38" width="84" height="44" rx="8"
+            fill="url(#hammerHead)" />
+      <rect x="-42" y="-38" width="84" height="18" rx="8"
+            fill="rgba(255,255,255,0.3)" />
+      <!-- Face strike surface -->
+      <rect x="38" y="-38" width="4" height="44" rx="2" fill="#ffffffcc" />
     </g>
+
+    <!-- ── SPARKS ── -->
+    <circle cx="-80" cy="-80" r="5"  fill="#ffe566" filter="url(#sparkGlow)" />
+    <circle cx="-50" cy="-135" r="4" fill="#ffaa33" filter="url(#sparkGlow)" />
+    <circle cx="80"  cy="-100" r="6" fill="#ffffff"  filter="url(#sparkGlow)" />
+    <circle cx="-20" cy="-180" r="3" fill="#ffcc44"  filter="url(#sparkGlow)" />
+    <circle cx="50"  cy="-160" r="4" fill="#ff9900"  filter="url(#sparkGlow)" />
+    <circle cx="-110" cy="-60" r="3" fill="#ff6600"  filter="url(#sparkGlow)" />
+    <circle cx="110" cy="-55"  r="3" fill="#ffe000"  filter="url(#sparkGlow)" />
   </g>
 
-  <!-- Text Right Side -->
-  <g transform="translate(480, 290)">
-    <text x="0" y="0" font-family="'Inter', -apple-system, sans-serif" font-weight="700" font-size="80" fill="url(#textGrad)" letter-spacing="-2">
-      OpenForge
-    </text>
-    <text x="0" y="60" font-family="'Inter', -apple-system, sans-serif" font-weight="500" font-size="28" fill="#888" letter-spacing="0">
-      Open-source AI Agent Builder
+  <!-- Vertical separator line -->
+  <line x1="560" y1="60" x2="560" y2="440"
+        stroke="#333" stroke-width="1" />
+
+  <!-- ════════ TEXT (right side) ════════ -->
+  <g transform="translate(620, 0)">
+
+    <!-- "OPEN-SOURCE AI AGENT BUILDER" label -->
+    <text x="0" y="145"
+          font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+          font-size="11.5" font-weight="600" fill="#ff6b2b"
+          letter-spacing="2.5" text-transform="uppercase">
+      OPEN-SOURCE · MIT LICENSE
     </text>
 
-    <!-- Badges -->
-    <g transform="translate(0, 110)">
-      <rect width="100" height="36" rx="18" fill="rgba(255, 107, 43, 0.1)" stroke="rgba(255, 107, 43, 0.2)"/>
-      <text x="50" y="23" font-family="'Inter', sans-serif" font-weight="600" font-size="14" fill="#ff6b2b" text-anchor="middle">MCP Ready</text>
+    <!-- Main wordmark -->
+    <text x="-4" y="222"
+          font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+          font-size="82" font-weight="800" fill="#f5f5f5"
+          letter-spacing="-3">Open</text>
+    <text x="190" y="222"
+          font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+          font-size="82" font-weight="800" fill="#ff6b2b"
+          letter-spacing="-3">Forge</text>
+
+    <!-- Tagline -->
+    <text x="0" y="268"
+          font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+          font-size="19" font-weight="400" fill="#777"
+          letter-spacing="-0.3">
+      Build AI agents with MCP, any provider, zero lock-in.
+    </text>
+
+    <!-- Separator -->
+    <line x1="0" y1="300" x2="520" y2="300" stroke="#222" stroke-width="1" />
+
+    <!-- Feature pills -->
+    <g transform="translate(0, 322)">
+      <!-- Pill 1: MCP -->
+      <rect width="90" height="32" rx="16" fill="rgba(255,107,43,0.1)" stroke="rgba(255,107,43,0.25)" stroke-width="1" />
+      <circle cx="21" cy="16" r="5" fill="#ff6b2b" />
+      <text x="34" y="21"
+            font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+            font-size="12.5" font-weight="600" fill="#ff6b2b">MCP</text>
+
+      <!-- Pill 2: Tool Calling -->
+      <g transform="translate(104, 0)">
+        <rect width="118" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="#2a2a2a" stroke-width="1" />
+        <text x="16" y="21"
+              font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+              font-size="12.5" font-weight="500" fill="#aaa">Tool Calling</text>
+      </g>
+
+      <!-- Pill 3: Streaming -->
+      <g transform="translate(236, 0)">
+        <rect width="110" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="#2a2a2a" stroke-width="1" />
+        <text x="16" y="21"
+              font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+              font-size="12.5" font-weight="500" fill="#aaa">Streaming</text>
+      </g>
+
+      <!-- Pill 4: Any AI -->
+      <g transform="translate(360, 0)">
+        <rect width="90" height="32" rx="16" fill="rgba(255,255,255,0.04)" stroke="#2a2a2a" stroke-width="1" />
+        <text x="16" y="21"
+              font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+              font-size="12.5" font-weight="500" fill="#aaa">Any AI</text>
+      </g>
+
     </g>
-    <g transform="translate(120, 110)">
-      <rect width="100" height="36" rx="18" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.1)"/>
-      <text x="50" y="23" font-family="'Inter', sans-serif" font-weight="600" font-size="14" fill="#ccc" text-anchor="middle">Tool Calling</text>
+
+    <!-- Install command -->
+    <g transform="translate(0, 386)">
+      <rect width="340" height="44" rx="10" fill="#0f0f0f" stroke="#252525" stroke-width="1" />
+      <text x="18" y="28"
+            font-family="'JetBrains Mono', 'Courier New', monospace"
+            font-size="14" font-weight="500" fill="#ff6b2b">$</text>
+      <text x="38" y="28"
+            font-family="'JetBrains Mono', 'Courier New', monospace"
+            font-size="14" font-weight="400" fill="#ddd"> npm install openforge</text>
     </g>
-    <g transform="translate(240, 110)">
-      <rect width="110" height="36" rx="18" fill="rgba(255, 255, 255, 0.05)" stroke="rgba(255, 255, 255, 0.1)"/>
-      <text x="55" y="23" font-family="'Inter', sans-serif" font-weight="600" font-size="14" fill="#ccc" text-anchor="middle">Event Streams</text>
-    </g>
+
   </g>
 </svg>

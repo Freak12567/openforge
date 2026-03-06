@@ -8,7 +8,7 @@
   <meta property="og:title" content="OpenForge — Open-source AI Agent Builder">
   <meta property="og:description" content="Create, share, and run AI agents with MCP and any AI provider.">
   <meta property="og:image" content="assets/banner.svg">
-  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/logo.png" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -113,55 +113,60 @@
 
     /* ── HERO ── */
     .hero {
-      padding-top: 100px;
-      text-align: center;
+      padding-top: 170px;
+      padding-bottom: 80px;
       position: relative;
       overflow: hidden;
     }
 
-    /* Radial fade background */
-    .hero::before {
+    .hero-container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 0.8fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    /* Radial fade background behind the forge */
+    .hero-graphic {
+      width: 100%;
+      position: relative;
+    }
+
+    .hero-graphic::after {
       content: '';
       position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 500px;
-      background: radial-gradient(ellipse at center top, rgba(255,107,43,0.08) 0%, transparent 70%);
+      top: 55%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255,100,20,0.1) 0%, transparent 60%);
+      z-index: -1;
       pointer-events: none;
     }
 
-    /* Banner */
-    .hero-banner {
-      max-width: 840px;
+    .hero-graphic img {
       width: 100%;
-      margin: 0 auto 0;
+      max-width: 440px;
+      height: auto;
       display: block;
-      border-radius: 16px;
-      overflow: hidden;
+      margin: 0 auto;
     }
 
     .hero-content {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
       position: relative;
+      text-align: left;
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 14px;
-      background: var(--accent-glow);
-      border: 1px solid var(--accent-border);
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 600;
+    .hero-label {
+      font-size: 11.5px;
+      font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 2px;
       margin-bottom: 24px;
+      display: block;
     }
 
     .hero-badge .dot {
@@ -177,31 +182,53 @@
     }
 
     .hero-title {
-      font-size: clamp(36px, 5.5vw, 58px);
+      font-size: clamp(48px, 6vw, 76px);
       font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 20px;
+      line-height: 1;
+      letter-spacing: -2.5px;
+      margin-bottom: 16px;
     }
 
     .hero-title .accent { color: var(--accent); }
 
     .hero-sub {
-      font-size: 18px;
-      color: var(--text-sub);
-      line-height: 1.7;
-      max-width: 480px;
-      margin: 0 auto 36px;
+      font-size: 19px;
+      color: #888;
+      line-height: 1.5;
+      margin-bottom: 32px;
       font-weight: 400;
+      max-width: 480px;
     }
 
-    .hero-actions {
+    .hero-pills {
       display: flex;
-      align-items: center;
-      justify-content: center;
       gap: 12px;
+      margin-bottom: 48px;
       flex-wrap: wrap;
-      margin-bottom: 52px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #aaa;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-2);
+    }
+
+    .pill.active {
+      color: var(--accent);
+      background: rgba(255,107,43,0.1);
+      border-color: rgba(255,107,43,0.25);
+      font-weight: 600;
+    }
+    
+    .pill.active .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
     }
 
     .btn {
@@ -486,6 +513,25 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+      }
+      .hero-content {
+        text-align: center;
+      }
+      .hero-sub {
+        margin: 0 auto 32px;
+      }
+      .hero-pills {
+        justify-content: center;
+      }
+      .install-chip {
+        margin: 0 auto;
+      }
+    }
     @media (max-width: 768px) {
       .features-grid { grid-template-columns: 1fr 1fr; }
       .agents-grid { grid-template-columns: 1fr; }
@@ -494,7 +540,6 @@
     @media (max-width: 560px) {
       .features-grid { grid-template-columns: 1fr; }
       .nav-links a:not(.nav-cta) { display: none; }
-      .hero-stats { gap: 28px; }
     }
   </style>
 </head>
@@ -504,7 +549,7 @@
   <nav>
     <div class="nav-inner">
       <a href="/" class="nav-logo">
-        <img src="assets/logo.svg" alt="OpenForge Logo">
+        <img src="assets/logo.png" alt="OpenForge Logo">
         <span class="nav-logo-text">Open<span class="accent">Forge</span></span>
       </a>
       <div class="nav-links">
@@ -520,51 +565,27 @@
 
   <!-- Hero -->
   <section class="hero">
-    <!-- Banner image -->
-    <div style="padding: 0 28px">
-      <img src="assets/banner.svg" alt="OpenForge Banner" class="hero-banner">
-    </div>
-
-    <div class="hero-content" style="padding-top: 48px;">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        Open Source · MIT License
+    <div class="hero-container">
+      <div class="hero-graphic">
+        <img src="assets/logo.png" alt="OpenForge Forge">
       </div>
-      <h1 class="hero-title">
-        Build AI agents<br><span class="accent">that actually work.</span>
-      </h1>
-      <p class="hero-sub">
-        Create, share, and deploy agents with MCP tool-calling — connect to any AI provider with zero lock-in.
-      </p>
+      <div class="hero-content">
+        <span class="hero-label">OPEN-SOURCE · MIT LICENSE</span>
+        <h1 class="hero-title">Open<span class="accent">Forge</span></h1>
+        <p class="hero-sub">Build AI agents with MCP, any provider, zero lock-in.</p>
+        
+        <div class="hero-pills">
+          <span class="pill active"><span class="dot"></span>MCP</span>
+          <span class="pill">Tool Calling</span>
+          <span class="pill">Streaming</span>
+          <span class="pill">Any AI</span>
+        </div>
 
-      <div class="hero-actions">
-        <a href="#get-started" class="btn btn-primary">
-          Get Started →
-        </a>
         <button class="install-chip" onclick="copy(this, 'npm install openforge')">
           <span class="dollar">$</span>
           <span>npm install openforge</span>
           <svg class="copy-btn" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         </button>
-      </div>
-
-      <div class="hero-stats">
-        <div class="stat">
-          <p>9</p>
-          <span>Public Exports</span>
-        </div>
-        <div class="stat">
-          <p>5+</p>
-          <span>Built-in Tools</span>
-        </div>
-        <div class="stat">
-          <p>MCP</p>
-          <span>Protocol Support</span>
-        </div>
-        <div class="stat">
-          <p>Any AI</p>
-          <span>Provider</span>
-        </div>
       </div>
     </div>
   </section>
