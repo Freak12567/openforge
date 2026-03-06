@@ -4,329 +4,497 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenForge — Open-source AI Agent Builder</title>
-  <meta name="description" content="Create, share, and run AI agents with MCP, tool-calling, and any AI provider. Open source.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <meta name="description" content="Create, share, and run AI agents with MCP, tool-calling, and any AI provider. Open source. MIT licensed.">
+  <meta property="og:title" content="OpenForge — Open-source AI Agent Builder">
+  <meta property="og:description" content="Create, share, and run AI agents with MCP and any AI provider.">
+  <meta property="og:image" content="assets/banner.svg">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --border: #1a1a1a;
-      --text: #ededed;
-      --text-secondary: #888888;
-      --accent: #ff6b2b;
-      --accent-dim: rgba(255, 107, 43, 0.1);
-      --code-bg: #0d0d0d;
+      --bg:           #080808;
+      --surface:      #0f0f0f;
+      --surface-2:    #141414;
+      --border:       #1e1e1e;
+      --border-2:     #2a2a2a;
+      --text:         #f2f2f2;
+      --text-muted:   #666;
+      --text-sub:     #999;
+      --accent:       #ff6b2b;
+      --accent-2:     #ff8c00;
+      --accent-glow:  rgba(255, 107, 43, 0.12);
+      --accent-border: rgba(255, 107, 43, 0.2);
+      --mono:         'JetBrains Mono', monospace;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Nav ── */
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0;
-      width: 100%;
-      padding: 16px 0;
-      background: rgba(10, 10, 10, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      inset-inline: 0;
       z-index: 100;
+      backdrop-filter: blur(20px) saturate(1.8);
+      background: rgba(8,8,8,0.7);
+      border-bottom: 1px solid var(--border);
     }
 
-    nav .inner {
-      max-width: 720px;
+    .nav-inner {
+      max-width: 1024px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
+      height: 60px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
     }
 
-    nav .logo {
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-    }
-
-    nav .logo span { color: var(--accent); }
-
-    nav .links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    nav .links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav .links a:hover { color: var(--text); }
-
-    nav .gh-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text) !important;
-      font-size: 13px;
-      transition: border-color 0.2s;
-    }
-
-    nav .gh-btn:hover { border-color: #333; }
-
-    /* ── Main ── */
-    main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      padding-top: 140px;
-      padding-bottom: 80px;
-    }
-
-    .hero .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 107, 43, 0.15);
-    }
-
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -1.2px;
-      margin-bottom: 16px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 520px;
-      line-height: 1.7;
-    }
-
-    /* ── Install ── */
-    .install {
-      margin-top: 40px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .install-box {
+    .nav-logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 12px 20px;
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
+      text-decoration: none;
       color: var(--text);
-      cursor: pointer;
-      transition: border-color 0.2s;
     }
 
-    .install-box:hover { border-color: #333; }
+    .nav-logo img { width: 28px; height: 28px; }
 
-    .install-box .dollar { color: var(--accent); user-select: none; }
-
-    .install-box .copy-icon {
-      color: var(--text-secondary);
-      transition: color 0.2s;
+    .nav-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
     }
 
-    .install-box:hover .copy-icon { color: var(--text); }
+    .nav-logo-text .accent { color: var(--accent); }
 
-    .copied-toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--accent);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-size: 13px;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 13.5px;
       font-weight: 500;
-      opacity: 0;
-      transition: all 0.3s ease;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px !important;
+      background: var(--surface-2) !important;
+      border: 1px solid var(--border-2) !important;
+      color: var(--text) !important;
+      border-radius: 8px !important;
+    }
+
+    .nav-cta:hover { border-color: #444 !important; background: #1a1a1a !important; }
+
+
+    /* ── HERO ── */
+    .hero {
+      padding-top: 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial fade background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(ellipse at center top, rgba(255,107,43,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .copied-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    /* Banner */
+    .hero-banner {
+      max-width: 840px;
+      width: 100%;
+      margin: 0 auto 0;
+      display: block;
+      border-radius: 16px;
+      overflow: hidden;
     }
 
-    /* ── Sections ── */
-    section {
-      padding: 60px 0;
-      border-top: 1px solid var(--border);
+    .hero-content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative;
     }
 
-    section h2 {
-      font-size: 24px;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-border);
+      border-radius: 99px;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    section .subtitle {
-      color: var(--text-secondary);
-      font-size: 15px;
-      margin-bottom: 32px;
-    }
-
-    /* ── Code blocks ── */
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px 24px;
-      overflow-x: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.8;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
       margin-bottom: 24px;
     }
 
-    pre .comment { color: #555; }
-    pre .keyword { color: var(--accent); }
-    pre .string { color: #7ec699; }
-    pre .func { color: #e2b86b; }
-
-    /* ── Features grid ── */
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
     }
 
-    .feature {
-      padding: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
-    .feature .icon {
-      font-size: 20px;
-      margin-bottom: 8px;
+    .hero-title {
+      font-size: clamp(36px, 5.5vw, 58px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
     }
 
-    .feature h3 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      letter-spacing: -0.2px;
+    .hero-title .accent { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      font-weight: 400;
     }
 
-    .feature p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* ── Steps ── */
-    .steps {
-      counter-reset: step;
-    }
-
-    .step {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .step::before {
-      counter-increment: step;
-      content: counter(step);
-      flex-shrink: 0;
-      width: 28px;
-      height: 28px;
+    .hero-actions {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--accent-dim);
-      color: var(--accent);
-      font-size: 13px;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14.5px;
       font-weight: 600;
-      border-radius: 50%;
-      margin-top: 2px;
-    }
-
-    .step h3 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .step p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .step code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    /* ── Footer ── */
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 13px;
-    }
-
-    footer a {
-      color: var(--accent);
       text-decoration: none;
+      cursor: pointer;
+      transition: all 0.18s;
+      border: none;
+      font-family: inherit;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(255,107,43,0.3);
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .features { grid-template-columns: 1fr; }
-      nav .links a:not(.gh-btn) { display: none; }
+    .btn-primary:hover { background: #ff7d3f; box-shadow: 0 6px 32px rgba(255,107,43,0.45); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border-2);
+    }
+
+    .btn-secondary:hover { border-color: #3a3a3a; background: #1a1a1a; }
+
+    /* Install command chip */
+    .install-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .install-chip:hover { border-color: var(--border-2); }
+    .install-chip .dollar { color: var(--accent); user-select: none; }
+    .install-chip .copy-btn { color: var(--text-muted); transition: color 0.15s; }
+    .install-chip:hover .copy-btn { color: var(--text-sub); }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat p { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .stat span { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+
+    /* ── SECTIONS ── */
+    .section {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 80px 28px;
+    }
+
+    .section-header { margin-bottom: 48px; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+    }
+
+    .section-header p {
+      font-size: 16px;
+      color: var(--text-sub);
+      margin-top: 8px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .feat {
+      padding: 28px;
+      background: var(--bg);
+      transition: background 0.2s;
+    }
+
+    .feat:hover { background: var(--surface); }
+
+    .feat-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .feat h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.2px; }
+    .feat p { font-size: 13px; color: var(--text-sub); line-height: 1.55; }
+
+    /* ── AGENTS SECTION ── */
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .agent-card {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .agent-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+    .agent-card:hover::before { opacity: 1; }
+
+    .agent-emoji { font-size: 28px; margin-bottom: 14px; display: block; }
+    .agent-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.2px; }
+    .agent-card p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
+    .agent-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .tag {
+      padding: 3px 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+      border-radius: 99px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── GET STARTED / STEPS ── */
+    .steps-row {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 28px; }
+
+    .step { display: flex; gap: 18px; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .step p { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; }
+
+    code {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+      padding: 2px 8px;
+      border-radius: 5px;
+    }
+
+    /* ── CODE BLOCK ── */
+    pre {
+      background: #050505;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.85;
+    }
+
+    pre .c { color: #444; }
+    pre .k { color: var(--accent); }
+    pre .s { color: #7ec699; }
+    pre .f { color: #e2b86b; }
+
+    /* ── CTA ── */
+    .cta-band {
+      border-top: 1px solid var(--border);
+      background: radial-gradient(ellipse at center bottom, rgba(255,107,43,0.05) 0%, transparent 70%);
+    }
+
+    .cta-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 100px 28px;
+      text-align: center;
+    }
+
+    .cta-inner h2 {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .cta-inner p {
+      color: var(--text-sub);
+      font-size: 16px;
+      margin-bottom: 36px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 28px;
+      text-align: center;
+    }
+
+    footer p { font-size: 13px; color: var(--text-muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .agents-grid { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero-stats { gap: 28px; }
     }
   </style>
 </head>
@@ -334,196 +502,262 @@
 
   <!-- Nav -->
   <nav>
-    <div class="inner">
-      <a href="/" class="logo" style="display: flex; align-items: center; gap: 8px;">
-        <img src="assets/logo.svg" alt="OpenForge Logo" width="24" height="24">
-        open<span>forge</span>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="assets/logo.svg" alt="OpenForge Logo">
+        <span class="nav-logo-text">Open<span class="accent">Forge</span></span>
       </a>
-      <div class="links">
-        <a href="#get-started">Get Started</a>
-        <a href="#features">Features</a>
-        <a href="https://github.com/auxforge/openforge" target="_blank" class="gh-btn">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <div class="nav-links">
+        <a href="#agents">Agents</a>
+        <a href="#get-started">Docs</a>
+        <a href="https://github.com/auxforge/openforge" target="_blank" rel="noopener" class="nav-cta">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           GitHub
         </a>
       </div>
     </div>
   </nav>
 
-  <main>
+  <!-- Hero -->
+  <section class="hero">
+    <!-- Banner image -->
+    <div style="padding: 0 28px">
+      <img src="assets/banner.svg" alt="OpenForge Banner" class="hero-banner">
+    </div>
 
-    <!-- Hero -->
-    <div class="hero">
-      <span class="badge">Open Source</span>
-      <h1>Build AI agents<br>that actually do things.</h1>
-      <p>Create agents with tools, connect them to MCP servers, and run them with any AI provider. No lock-in. Just code.</p>
+    <div class="hero-content" style="padding-top: 48px;">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Open Source · MIT License
+      </div>
+      <h1 class="hero-title">
+        Build AI agents<br><span class="accent">that actually work.</span>
+      </h1>
+      <p class="hero-sub">
+        Create, share, and deploy agents with MCP tool-calling — connect to any AI provider with zero lock-in.
+      </p>
 
-      <div class="install">
-        <div class="install-box" onclick="copyCmd(this, 'npm install openforge')">
+      <div class="hero-actions">
+        <a href="#get-started" class="btn btn-primary">
+          Get Started →
+        </a>
+        <button class="install-chip" onclick="copy(this, 'npm install openforge')">
           <span class="dollar">$</span>
           <span>npm install openforge</span>
-          <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <svg class="copy-btn" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <p>9</p>
+          <span>Public Exports</span>
+        </div>
+        <div class="stat">
+          <p>5+</p>
+          <span>Built-in Tools</span>
+        </div>
+        <div class="stat">
+          <p>MCP</p>
+          <span>Protocol Support</span>
+        </div>
+        <div class="stat">
+          <p>Any AI</p>
+          <span>Provider</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Features -->
-    <section id="features">
-      <h2>What you get</h2>
-      <p class="subtitle">Everything you need to build, share, and run AI agents.</p>
+  <!-- Features -->
+  <hr class="divider">
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">What you get</span>
+      <h2>Everything you need to ship agents</h2>
+      <p>Batteries-included, framework-agnostic, fully open source.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat">
+        <div class="feat-icon">🔌</div>
+        <h3>MCP — stdio, SSE, WebSocket</h3>
+        <p>Connect any Model Context Protocol server instantly. Thousands of community MCP servers ready to use.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🤖</div>
+        <h3>Any AI Provider</h3>
+        <p>Bring your own client — OpenAI, Anthropic, Gemini, Groq, Ollama, anything. No hard dependency.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔧</div>
+        <h3>Built-in Tools</h3>
+        <p>HTTP fetch, JSON parse, text transform, date/time utilities — ready out of the box, zero config.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📦</div>
+        <h3>Portable Manifests</h3>
+        <p>Each agent is a single <code>.agent.json</code> file. Share it, clone it, run it anywhere.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <h3>Real-time Streaming</h3>
+        <p>EventEmitter-based streaming — watch every tool call and LLM response the moment it fires.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎯</div>
+        <h3>Custom Tool Handlers</h3>
+        <p>Write custom tools as JavaScript functions. Sandboxed via VM, fully typed, infinitely flexible.</p>
+      </div>
+    </div>
+  </div>
 
-      <div class="features">
-        <div class="feature">
-          <div class="icon">🔌</div>
-          <h3>MCP Support</h3>
-          <p>Connect to any MCP server — stdio, SSE, WebSocket. Use thousands of existing tools.</p>
-        </div>
-        <div class="feature">
-          <div class="icon">🤖</div>
-          <h3>Any AI Provider</h3>
-          <p>OpenAI, Anthropic, Gemini, Groq, Ollama — bring whatever you want. No lock-in.</p>
-        </div>
-        <div class="feature">
-          <div class="icon">🔧</div>
-          <h3>Built-in Tools</h3>
-          <p>HTTP fetch, JSON parse, text transform, date/time. Ready to use out of the box.</p>
-        </div>
-        <div class="feature">
-          <div class="icon">📦</div>
-          <h3>Portable Agents</h3>
-          <p>Each agent is a JSON manifest. Share it, install it, run it anywhere.</p>
-        </div>
-        <div class="feature">
-          <div class="icon">⚡</div>
-          <h3>Event Streaming</h3>
-          <p>Track execution in real-time. See every tool call and response as it happens.</p>
-        </div>
-        <div class="feature">
-          <div class="icon">🎨</div>
-          <h3>Custom Tools</h3>
-          <p>Write JS handlers for custom tools. Sandboxed via VM. Full control.</p>
+  <!-- Agents -->
+  <hr class="divider">
+  <div class="section" id="agents">
+    <div class="section-header">
+      <span class="section-label">Built with OpenForge</span>
+      <h2>What can you build?</h2>
+      <p>From personal assistants to production automations. Build whatever you want.</p>
+    </div>
+    <div class="agents-grid">
+      <div class="agent-card">
+        <span class="agent-emoji">🗓️</span>
+        <h3>Calendar Assistant</h3>
+        <p>Connects to the Google Calendar MCP server. Schedules meetings, checks conflicts, and drafts emails — all via natural language.</p>
+        <div class="agent-tags">
+          <span class="tag">MCP</span>
+          <span class="tag">Google Calendar</span>
+          <span class="tag">stdio</span>
         </div>
       </div>
-    </section>
-
-    <!-- Featured Agents -->
-    <section id="agents" style="background: rgba(255,107,43,0.02); margin: 0 -24px; padding: 60px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <h2>Built with OpenForge</h2>
-      <p class="subtitle">Some of the agents you can build in under 5 minutes.</p>
-
-      <div class="features" style="gap: 20px;">
-        <div class="feature" style="border-color: rgba(255,107,43,0.2);">
-          <div style="font-size: 24px; margin-bottom: 12px;">🗓️</div>
-          <h3>Calendar Assistant</h3>
-          <p>Connects via Anthropic's Google Calendar MCP server to schedule meetings, check conflicts, and email attendees all using natural language.</p>
-        </div>
-        <div class="feature">
-          <div style="font-size: 24px; margin-bottom: 12px;">💬</div>
-          <h3>WhatsApp Support Bot</h3>
-          <p>Uses the CustomProvider to hook into a WhatsApp Web socket. Replies to customers, queries the product database, and escalates to humans.</p>
-        </div>
-        <div class="feature">
-          <div style="font-size: 24px; margin-bottom: 12px;">💻</div>
-          <h3>DevOps Terminal Agent</h3>
-          <p>Local agent using the Filesystem & Terminal MCP servers. Can debug logs, write scripts, and deploy code right from your machine.</p>
-        </div>
-        <div class="feature">
-          <div style="font-size: 24px; margin-bottom: 12px;">📊</div>
-          <h3>Data Analyst</h3>
-          <p>Uses built-in JSON parsing and custom HTTP tools to fetch API data, analyze trends using OpenAI, and generate summary CSV reports.</p>
+      <div class="agent-card">
+        <span class="agent-emoji">💬</span>
+        <h3>WhatsApp Support Bot</h3>
+        <p>Uses CustomProvider to hook into a WhatsApp Web bridge. Replies to customers, queries your DB, and escalates to humans automatically.</p>
+        <div class="agent-tags">
+          <span class="tag">CustomProvider</span>
+          <span class="tag">WebSocket</span>
+          <span class="tag">WhatsApp</span>
         </div>
       </div>
-    </section>
+      <div class="agent-card">
+        <span class="agent-emoji">💻</span>
+        <h3>DevOps Terminal Agent</h3>
+        <p>Local agent with the Filesystem & Terminal MCP servers. Debugs logs, writes scripts, and deploys code — right from your machine.</p>
+        <div class="agent-tags">
+          <span class="tag">MCP</span>
+          <span class="tag">Filesystem</span>
+          <span class="tag">Terminal</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <span class="agent-emoji">📊</span>
+        <h3>Data Analyst Agent</h3>
+        <p>Uses the built-in HTTP fetch and JSON parse tools to pull live API data, analyze trends, and generate structured CSV reports.</p>
+        <div class="agent-tags">
+          <span class="tag">BuiltinProvider</span>
+          <span class="tag">HTTP Fetch</span>
+          <span class="tag">JSON</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Get Started -->
-    <section id="get-started">
-      <h2>Get started in 2 minutes</h2>
-      <p class="subtitle">From install to running your first agent.</p>
-
+  <!-- Get Started + Code -->
+  <hr class="divider">
+  <div class="section" id="get-started">
+    <div class="section-header">
+      <span class="section-label">Quick Start</span>
+      <h2>Up and running in 2 minutes</h2>
+      <p>From install to your first running agent.</p>
+    </div>
+    <div class="steps-row">
       <div class="steps">
         <div class="step">
+          <div class="step-num">1</div>
           <div>
             <h3>Install</h3>
             <p><code>npm install -g openforge</code></p>
           </div>
         </div>
         <div class="step">
+          <div class="step-num">2</div>
           <div>
             <h3>Create an agent</h3>
             <p><code>openforge create my-agent "A helpful assistant"</code></p>
-            <p style="margin-top: 6px">This creates a <code>.agent.json</code> manifest in <code>~/.openforge/agents/</code></p>
+            <p style="margin-top: 4px; font-size: 13px; color: var(--text-muted);">Creates a <code>.agent.json</code> in <code>~/.openforge/agents/</code></p>
           </div>
         </div>
         <div class="step">
+          <div class="step-num">3</div>
           <div>
             <h3>Run it</h3>
-            <p><code>OPENAI_API_KEY=sk-xxx openforge run my-agent "hello"</code></p>
-            <p style="margin-top: 6px">Works with any provider — swap OpenAI for Anthropic, Gemini, or local Ollama.</p>
+            <p><code>OPENAI_API_KEY=sk-… openforge run my-agent "hello"</code></p>
+            <p style="margin-top: 4px; font-size: 13px; color: var(--text-muted);">Works with any AI provider — swap for Anthropic, Groq, or local Ollama.</p>
           </div>
         </div>
       </div>
-    </section>
+      <div>
+        <pre><span class="c">// Or use it programmatically</span>
+<span class="k">const</span> { AgentBuilder } = <span class="f">require</span>(<span class="s">'openforge'</span>);
 
-    <!-- Code example -->
-    <section>
-      <h2>Or use it in code</h2>
-      <p class="subtitle">Full programmatic control with streaming support.</p>
-
-      <pre><span class="keyword">const</span> { AgentBuilder } = <span class="func">require</span>(<span class="string">'openforge'</span>);
-
-<span class="keyword">const</span> builder = <span class="keyword">new</span> AgentBuilder({
-  <span class="func">aiProvider</span>: <span class="keyword">async</span> (messages, model, tools) => {
-    <span class="comment">// Use any AI provider you want</span>
-    <span class="keyword">const</span> { OpenAI } = <span class="func">require</span>(<span class="string">'openai'</span>);
-    <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">new</span> OpenAI()
-      .chat.completions.<span class="func">create</span>({ model, messages, tools });
+<span class="k">const</span> builder = <span class="k">new</span> AgentBuilder({
+  <span class="f">aiProvider</span>: <span class="k">async</span> (messages, model, tools) => {
+    <span class="k">return</span> <span class="k">await</span> openai.chat.completions
+      .<span class="f">create</span>({ model, messages, tools });
   },
 });
 
-<span class="keyword">await</span> builder.<span class="func">initialize</span>();
+<span class="k">await</span> builder.<span class="f">initialize</span>();
 
-<span class="comment">// Connect an MCP server</span>
-<span class="keyword">await</span> builder.<span class="func">addMcpServer</span>(<span class="string">'calendar'</span>, {
-  transport: <span class="string">'stdio'</span>,
-  command: <span class="string">'npx'</span>,
-  args: [<span class="string">'-y'</span>, <span class="string">'@anthropic/mcp-google-calendar'</span>],
+<span class="c">// Connect an MCP server</span>
+<span class="k">await</span> builder.<span class="f">addMcpServer</span>(<span class="s">'calendar'</span>, {
+  transport: <span class="s">'stdio'</span>,
+  command: <span class="s">'npx'</span>,
+  args: [<span class="s">'-y'</span>, <span class="s">'@anthropic/mcp-google-calendar'</span>],
 });
 
-<span class="comment">// Run with real-time streaming</span>
-<span class="keyword">const</span> { runtime, resultPromise } = <span class="keyword">await</span> builder.<span class="func">runAgentStreaming</span>(
-  <span class="string">'my-agent'</span>, <span class="string">'Check my calendar for tomorrow'</span>
-);
+<span class="c">// Streaming execution</span>
+<span class="k">const</span> { runtime, resultPromise } =
+  <span class="k">await</span> builder.<span class="f">runAgentStreaming</span>(<span class="s">'my-agent'</span>, <span class="s">'Check my calendar'</span>);
 
-runtime.<span class="func">on</span>(<span class="string">'tool_call'</span>, (d) => console.<span class="func">log</span>(<span class="string">`🔧 ${d.tool}`</span>));
-<span class="keyword">const</span> result = <span class="keyword">await</span> resultPromise;</pre>
-    </section>
-
-    <!-- CTA -->
-    <section style="text-align: center; padding: 80px 0;">
-      <h2 style="margin-bottom: 12px;">Build whatever you want.</h2>
-      <p class="subtitle" style="margin-bottom: 32px;">It's open source. MIT licensed. Go make something great.</p>
-      <a href="https://github.com/auxforge/openforge" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--accent); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; transition: opacity 0.2s;">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        View on GitHub
-      </a>
-    </section>
-
-  </main>
-
-  <footer>
-    <div style="max-width: 720px; margin: 0 auto; padding: 0 24px;">
-      Made by <a href="https://github.com/auxforge" target="_blank">AuxForge</a> · MIT License · <a href="https://github.com/auxforge/openforge" target="_blank">GitHub</a>
+runtime.<span class="f">on</span>(<span class="s">'tool_call'</span>, ({ tool }) =>
+  console.<span class="f">log</span>(<span class="s">`🔧 ${tool}`</span>)
+);</pre>
+      </div>
     </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <div class="cta-inner">
+      <h2>Build whatever you want.</h2>
+      <p>MIT licensed. Open source. No pricing page.</p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="https://github.com/auxforge/openforge" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Star it on GitHub
+        </a>
+        <button class="btn btn-secondary" onclick="copy(this, 'npm install openforge')">
+          npm install openforge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Made by <a href="https://github.com/auxforge" target="_blank">AuxForge</a> · MIT License · <a href="https://github.com/auxforge/openforge" target="_blank">GitHub</a> · <a href="https://github.com/auxforge/openforge/issues" target="_blank">Issues</a></p>
   </footer>
 
-  <div class="copied-toast" id="toast">Copied!</div>
+  <div class="toast" id="toast">Copied!</div>
 
   <script>
-    function copyCmd(el, text) {
+    function copy(el, text) {
       navigator.clipboard.writeText(text);
-      const toast = document.getElementById('toast');
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 1500);
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 1600);
     }
   </script>
 
