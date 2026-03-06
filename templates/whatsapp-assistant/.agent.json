@@ -1,0 +1,35 @@
+{
+  "name": "whatsapp-assistant",
+  "version": "1.0.0",
+  "description": "Reads and sends WhatsApp messages on your behalf. Can check unread messages, search contacts, and send replies.",
+  "author": "openforge",
+  "license": "MIT",
+
+  "runtime": {
+    "model": "gpt-4o-mini",
+    "maxLoops": 10,
+    "timeoutMs": 60000
+  },
+
+  "systemPrompt": "You are a WhatsApp assistant running on the user's macOS desktop. You can read messages, send replies, list chats, check unread messages, and search contacts.\n\nRules:\n1. Always confirm with the user before sending a message\n2. When reading messages, summarize them clearly\n3. Never fabricate message content — only report what you actually read\n4. If an operation fails, explain the error and suggest next steps\n5. WhatsApp Desktop must be open on the user's Mac for this to work",
+
+  "tools": {
+    "require": [
+      "relay:whatsapp"
+    ],
+    "optional": [
+      "builtin:date_time",
+      "builtin:text_transform"
+    ]
+  },
+
+  "triggers": {
+    "manual": true,
+    "events": ["whatsapp:unread"]
+  },
+
+  "ui": {
+    "panel": "chat",
+    "icon": "💬"
+  }
+}

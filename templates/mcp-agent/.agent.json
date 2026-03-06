@@ -1,0 +1,42 @@
+{
+  "name": "mcp-agent",
+  "version": "1.0.0",
+  "description": "Template agent configured with MCP server integration. Connect to any MCP-compliant tool server.",
+  "author": "openforge",
+  "license": "MIT",
+
+  "runtime": {
+    "model": "gpt-4o-mini",
+    "maxLoops": 10,
+    "timeoutMs": 60000
+  },
+
+  "systemPrompt": "You are an AI assistant with access to external tools via MCP (Model Context Protocol). Use the available tools to fulfill the user's requests. Always explain what you are doing before executing a tool.",
+
+  "tools": {
+    "require": [],
+    "optional": [
+      "builtin:http_fetch",
+      "builtin:json_parse",
+      "builtin:date_time"
+    ]
+  },
+
+  "mcpServers": {
+    "_example_server": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@example/mcp-server"],
+      "_note": "Replace with your actual MCP server. Remove the leading underscore from the key name."
+    }
+  },
+
+  "triggers": {
+    "manual": true
+  },
+
+  "ui": {
+    "panel": "chat",
+    "icon": "🔌"
+  }
+}

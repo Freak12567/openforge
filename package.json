@@ -1,0 +1,62 @@
+{
+  "name": "openforge",
+  "version": "0.1.0",
+  "description": "Open-source AI Agent Builder — create, share, and run AI agents with MCP, tool-calling, and custom provider support",
+  "main": "index.js",
+  "bin": {
+    "openforge": "./bin/openforge.js"
+  },
+  "scripts": {
+    "test": "node --test src/__tests__/",
+    "test:integration": "node --test src/__tests__/integration/",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "mcp",
+    "tool-calling",
+    "openai",
+    "anthropic",
+    "gemini",
+    "automation",
+    "agent-builder",
+    "model-context-protocol"
+  ],
+  "author": "Mohit Yadav",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auxforge/openforge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/auxforge/openforge/issues"
+  },
+  "homepage": "https://github.com/auxforge/openforge#readme",
+  "files": [
+    "index.js",
+    "src/",
+    "bin/",
+    "templates/",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "eventsource": "^2.0.2",
+    "uuid": "^9.0.0",
+    "ws": "^8.16.0",
+    "yaml": "^2.3.4"
+  },
+  "peerDependencies": {
+    "openai": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "openai": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

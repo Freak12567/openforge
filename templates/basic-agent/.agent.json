@@ -1,0 +1,29 @@
+{
+  "name": "basic-agent",
+  "version": "1.0.0",
+  "description": "A simple agent that can make HTTP requests, parse JSON, and work with text. Good starting template.",
+  "author": "openforge",
+  "license": "MIT",
+
+  "runtime": {
+    "model": "gpt-4o-mini",
+    "maxLoops": 5,
+    "timeoutMs": 30000
+  },
+
+  "systemPrompt": "You are a helpful assistant. You have access to HTTP, JSON, and text tools. Use them to help the user with their request. Be concise and actionable in your responses.",
+
+  "tools": {
+    "require": ["builtin:http_fetch", "builtin:json_parse", "builtin:text_transform"],
+    "optional": ["builtin:date_time"]
+  },
+
+  "triggers": {
+    "manual": true
+  },
+
+  "ui": {
+    "panel": "chat",
+    "icon": "🤖"
+  }
+}
