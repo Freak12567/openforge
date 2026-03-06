@@ -1,9 +1,5 @@
 <p align="center">
-  <h1 align="center">🔥 OpenForge</h1>
-  <p align="center">
-    <strong>Open-source AI Agent Builder</strong><br>
-    Create, share, and run AI agents with MCP, tool-calling, and any AI provider.
-  </p>
+  <img src="https://raw.githubusercontent.com/auxforge/openforge/main/docs/assets/banner.svg" alt="OpenForge Banner" width="800">
   <p align="center">
     <a href="https://www.npmjs.com/package/openforge"><img src="https://img.shields.io/npm/v/openforge?color=purple&label=npm" alt="npm version"></a>
     <a href="https://github.com/auxforge/openforge/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
